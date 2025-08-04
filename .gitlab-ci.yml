@@ -7,9 +7,6 @@ cicd-job:
     tags: ["eduko"]
     script:
         - echo "=========== Running deployment auto from CI/CD ==========="
-        - echo $DOCKER_PAT
-        - export DOCKER_PAT=$DOCKER_PAT
-        - echo $DOCKER_PAT
         - sh /opt/monitoring/cicd/script.sh || exit 1
         - echo "=========== Success deployment in server ==========="
     rules:
