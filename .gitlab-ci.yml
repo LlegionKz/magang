@@ -7,7 +7,7 @@ cicd-job:
     tags: ["eduko"]
     script:
         - echo "=========== Running deployment auto from CI/CD ==========="
-        - sh //opt/monitoring/cicd/script.sh || exit 1
+        - sh /opt/monitoring/cicd/script.sh || exit 1
         - echo "=========== Success deployment in server ==========="
     rules:
         - if: '$CI_COMMIT_REF_NAME == "main" && $CI_PIPELINE_SOURCE == "push"'
