@@ -25,7 +25,7 @@ const Courses = [
       author:author1,
       authortitle:'Robert Henry',
       lesson:'20',
-      fee: '1337',
+      fee: '2025',
       student:'200',
       ratting:'4.5',
       title: 'Learn WordPress & Elementor for Beginners',
