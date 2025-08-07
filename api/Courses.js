@@ -39,7 +39,7 @@ const Courses = [
       author:author2,
       authortitle:'Aliza Anny',
       lesson:'30',
-      fee: '100',
+      fee: '1337',
       student:'420',
       ratting:'5.0',
       title: 'The Complete Guide to Be a Graphics Designer.',
