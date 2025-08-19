@@ -43,14 +43,8 @@ const Header = (props) => {
                                             <Link onClick={ClickHandler} href="/home">Home</Link>
                                         </li>
                                         <li><Link onClick={ClickHandler} href="/about">About</Link></li>
-                                        <li className="menu-item-has-children">
-                                            <Link onClick={ClickHandler} href="/">Courses</Link>
-                                            <ul className="sub-menu">
-                                                <li><Link onClick={ClickHandler} href="/course">Courses Style 1</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/course-2">Courses Style 2</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/course-3">Courses Style 3</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/course-single/Learn-WordPress-&-Elementor-for-Beginners">Courses single</Link></li>
-                                            </ul>
+                                        <li>
+                                            <Link onClick={ClickHandler} href="/course">Courses</Link>
                                         </li>
                                         <li className="menu-item-has-children">
                                             <Link onClick={ClickHandler} href="/">Pages</Link>
