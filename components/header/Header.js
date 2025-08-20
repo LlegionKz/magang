@@ -53,38 +53,20 @@ const Header = (props) => {
                                                 <li><Link onClick={ClickHandler} href="/gallery">Gallery</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/testimonial">Testimonial</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/teacher">Teachers</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/team-single/Courtney-Henry">Teacher Single</Link></li>
+                                                
                                                 <li><Link onClick={ClickHandler} href="/become-teacher">Become Teacher</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/faq">FAQ</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/404">404 Error</Link></li>
+                                                
                                             </ul>
                                         </li>
-                                        <li className="menu-item-has-children">
-                                            <Link onClick={ClickHandler} href="/">Blog</Link>
-                                            <ul className="sub-menu">
-                                                <li><Link onClick={ClickHandler} href="/blog">Blog right sidebar</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/blog-left-sidebar">Blog left sidebar</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/blog-fullwidth">Blog fullwidth</Link></li>
-                                                <li className="menu-item-has-children">
-                                                    <Link onClick={ClickHandler} href="/">Blog details</Link>
-                                                    <ul className="sub-menu">
-                                                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Blog details right sidebar</Link>
-                                                        </li>
-                                                        <li><Link onClick={ClickHandler} href="/blog-single-left-sidebar/Become-a-great-WordPress-&-PHP-developer.">Blog details left
-                                                            sidebar</Link></li>
-                                                        <li><Link onClick={ClickHandler} href="/blog-single-fullwidth/Become-a-great-WordPress-&-PHP-developer.">Blog details
-                                                            fullwidth</Link></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                        <li>
+                                            <Link onClick={ClickHandler} href="/blog">Blog</Link>
                                         </li>
                                         <li className="menu-item-has-children">
                                             <Link onClick={ClickHandler} href="/">Shop</Link>
                                             <ul className="sub-menu">
                                                 <li><Link onClick={ClickHandler} href="/shop">Shop</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/product-single/Principles-and-Policies">Shop Single</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/cart">Cart</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/checkout">Checkout</Link></li>
                                             </ul>
                                         </li>
                                         <li><Link onClick={ClickHandler} href="/contact">Contact</Link></li>
