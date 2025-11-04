@@ -130,11 +130,7 @@ const menus = [
         ]
     },
 
-    {
-        id: 5,
-        title: 'Blog',
-        link: '/blog'
-    },
+    // Blog menu removed
     {
         id: 88,
         title: 'Contact',

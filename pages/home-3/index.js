@@ -7,7 +7,6 @@ import CategorySection3 from '../../components/CategorySection3/CategorySection3
 import CourseSection from '../../components/CourseSection/CourseSection';
 import TeamSection from '../../components/TeamSection/TeamSection';
 import EventSection from '../../components/EventSection/EventSection';
-import BlogSection from '../../components/BlogSection/BlogSection';
 import Newslatter from '../../components/Newslatter/Newslatter';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Footer from '../../components/footer/Footer';
@@ -23,9 +22,8 @@ const HomePage3 =() => {
             <CategorySection3/>
             <CourseSection pClass={'wpo-popular-area-s2'}/>
             <TeamSection/>
-            <EventSection/>
-            <BlogSection/> 
-            <Footer/> 
+            <EventSection>
+            </EventSection>
             <Scrollbar/>
         </Fragment>
     )

@@ -24,10 +24,11 @@ const BlogSidebar = (props) => {
                     <p>Hi! beautiful people. I`m an authtor of this blog. Read our post - stay with us</p>
                     <div className="social">
                         <ul className="clearfix">
-                            <li><Link onClick={ClickHandler} href="/blog-single/Letraset-Sheets-Passage-And-Recently"><i className="ti-facebook"></i></Link></li>
-                            <li><Link onClick={ClickHandler} href="/blog-single/Letraset-Sheets-Passage-And-Recently"><i className="ti-twitter-alt"></i></Link></li>
-                            <li><Link onClick={ClickHandler} href="/blog-single/Letraset-Sheets-Passage-And-Recently"><i className="ti-linkedin"></i></Link></li>
-                            <li><Link onClick={ClickHandler} href="/blog-single/Letraset-Sheets-Passage-And-Recently"><i className="ti-pinterest"></i></Link></li>
+                            {/* social links to blog posts removed */}
+                            <li><a href="#"><i className="ti-facebook"></i></a></li>
+                            <li><a href="#"><i className="ti-twitter-alt"></i></a></li>
+                            <li><a href="#"><i className="ti-linkedin"></i></a></li>
+                            <li><a href="#"><i className="ti-pinterest"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -43,12 +44,13 @@ const BlogSidebar = (props) => {
                 <div className="widget category-widget">
                     <h3>Post Categories</h3>
                     <ul>
-                        <li><Link onClick={ClickHandler} href="/blog">Education<span>5</span></Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog">Ai Content <span>7</span></Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog">Knowledge<span>3</span></Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog">Marketing<span>6</span></Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog">Design<span>2</span></Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog">Courses<span>8</span></Link></li>
+                        {/* category links removed (previously pointed to blog pages) */}
+                        <li><a href="#">Education<span>5</span></a></li>
+                        <li><a href="#">Ai Content <span>7</span></a></li>
+                        <li><a href="#">Knowledge<span>3</span></a></li>
+                        <li><a href="#">Marketing<span>6</span></a></li>
+                        <li><a href="#">Design<span>2</span></a></li>
+                        <li><a href="#">Courses<span>8</span></a></li>
                     </ul>
                 </div>
                 <div className="widget recent-post-widget">
@@ -60,7 +62,8 @@ const BlogSidebar = (props) => {
                                     <Image src={blog.screens} alt="" />
                                 </div>
                                 <div className="details">
-                                    <h4><Link onClick={ClickHandler} href={'/blog-single/[slug]'} as={`/blog-single/${blog.slug}`}>{blog.title}</Link></h4>
+                                    {/* links to blog single neutralized */}
+                                    <h4><a href="#">{blog.title}</a></h4>
                                     <span className="date">{blog.create_at}</span>
                                 </div>
                             </div>
@@ -70,14 +73,15 @@ const BlogSidebar = (props) => {
                 <div className="widget tag-widget">
                     <h3>Tags</h3>
                     <ul>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Education</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Marketing</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Video</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Knowledge</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Design</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">SOCIAL</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">SECURITY</Link></li>
-                        <li><Link onClick={ClickHandler} href="/blog-single/Become-a-great-WordPress-&-PHP-developer.">Web Design</Link></li>
+                        {/* tag links neutralized */}
+                        <li><a href="#">Education</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Video</a></li>
+                        <li><a href="#">Knowledge</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">SOCIAL</a></li>
+                        <li><a href="#">SECURITY</a></li>
+                        <li><a href="#">Web Design</a></li>
                     </ul>
                 </div>
                 <div className="wpo-contact-widget widget">

@@ -14,14 +14,7 @@ const Curriculum = () => {
             <div className="wpo-course-text-top">
                 <h2>Starting Beginners Level Course</h2>
                 <div className="course-b-text mt-1">
-                    <p>On the other hand, we denounce with righteous indignation
-                        and dislike men who are so beguiled and demoralized by
-                        the charms of pleasure of the moment, so blinded by
-                        desire, that they cannot foresee the pain and trouble
-                        that are bound to ensue and equal blame belongs to those
-                        who fail in their duty through weakness of will, which
-                        is the same as saying through shrinking from toil and
-                        pain.</p>
+                    <p>This beginner-level program provides a foundational understanding of editing principles and essential techniques used in digital content creation. The lessons are designed for learners with little or no prior experience and focus on building confidence through step-by-step practical exercises.</p>
                 </div>
                 <div className="course-curriculam">
                     <ul>
@@ -35,14 +28,7 @@ const Curriculum = () => {
             <div className="wpo-course-text-top">
                 <h2>Intermediate Level Course</h2>
                 <div className="course-b-text mt-1">
-                    <p>On the other hand, we denounce with righteous indignation
-                        and dislike men who are so beguiled and demoralized by
-                        the charms of pleasure of the moment, so blinded by
-                        desire, that they cannot foresee the pain and trouble
-                        that are bound to ensue and equal blame belongs to those
-                        who fail in their duty through weakness of will, which
-                        is the same as saying through shrinking from toil and
-                        pain.</p>
+                    <p>The intermediate course expands upon the core concepts introduced in the beginner modules and enables learners to enhance their precision, creativity, and workflow efficiency. Participants will explore more advanced tools and methods to produce professional-quality media content..</p>
                 </div>
                 <div className="course-curriculam">
                     <ul>

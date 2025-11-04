@@ -6,42 +6,13 @@ const Overview = () => {
             <div className="wpo-course-text-top">
                 <h2>Learn WordPress & Elementor for Beginners</h2>
                 <div className="course-b-text">
-                    <p>On the other hand, we denounce with righteous indignation
-                        and dislike men who are so beguiled and demoralized by
-                        the charms of pleasure of the moment, so blinded by
-                        desire, that they cannot foresee the pain and trouble
-                        that are bound to ensue and equal blame belongs to those
-                        who fail in their duty through weakness of will, which
-                        is the same as saying through shrinking from toil and
-                        pain.</p>
-                    <p>These courses are perfectly simple and easy to distinguish.
-                        In a free hour, when our power of choice is untrammelled
-                        and when nothing prevents our being able to do what we
-                        like best, every pleasure is to be welcomed and every
-                        pain avoided.</p>
-                    <p>But in certain circumstances and owing to the claims of
-                        duty or the obligations of business it will frequently
-                        occur that pleasures have to be repudiated and
-                        annoyances accepted. The wise man therefore always holds
-                        in these matters to this principle of sEduko: he
-                        rejects pleasures.</p>
+                    <p>This course introduces the core foundations of HyperText Markup Language (HTML), the primary language used to structure content on the web. Learners will explore essential elements, tags, and page-building techniques required to create well-structured, accessible, and visually organized websites. Through practical examples and hands-on exercises, participants will gain confidence in writing clean HTML code, organizing content with semantic structure, and preparing web pages for integration with CSS and JavaScript. The curriculum is tailored for individuals with no prior programming experience and serves as a strong entry point into the world of web development.</p>
+
                 </div>
                 <div className="course-bb-text">
                     <h3>Why Choose This Course</h3>
-                    <p>These courses are perfectly simple and easy to distinguish.
-                        In a free hour, when our power of choice is untrammelled
-                        and when nothing prevents our being able to do what we
-                        like best, every pleasure.</p>
-                    <ul>
-                        <li>The wise man therefore always holds in these
-                            matters.</li>
-                        <li>In a free hour, when our power of choice and when
-                            nothing.</li>
-                        <li>Else he endures pains to avoid worse pains.</li>
-                        <li>We denounce with righteous indignation and dislike
-                            men. </li>
-                        <li>Which is the same as saying through.</li>
-                    </ul>
+                    <p>This course provides a beginner-friendly pathway to understanding how websites are built and displayed in modern browsers. The teaching approach emphasizes practical learning, ensuring that participants quickly transition from theory to real coding tasks. The content is kept up to date with current web standards and best practices. Upon completion, learners will possess the foundational knowledge required to pursue more advanced front-end development skills, including styling with CSS and dynamic functionality with JavaScript. This course represents an excellent starting point for anyone seeking future opportunities in technology, design, or digital content creation.</p>
+
                 </div>
             </div>
         </div>

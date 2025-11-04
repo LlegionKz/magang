@@ -24,51 +24,53 @@ const FaqSection = (props) => {
                                 aria-controls="panel1bh-content"
                                 id="panel1bh-header"
                             >
-                                <Typography>Market research on our global panel with support from our experts.</Typography>
+                                <Typography>1. What is Eduko?</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum exercitationem pariatur iure nemo esse repellendus est quo recusandae. Delectus, maxime.
+                                   Eduko is an online learning platform that offers interactive courses, video tutorials, and quizzes across various subjects to help learners develop new skills anytime, anywhere.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
+
                         <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                             <AccordionSummary
                                 aria-controls="panel2bh-content"
                                 id="panel2bh-header"
                             >
-                                <Typography>Planning can help alleviate workplace stress and increase productivity.</Typography>
+                                <Typography>2. Do I need to pay to use Eduko?</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum exercitationem pariatur iure nemo esse repellendus est quo recusandae. Delectus, maxime.
+                                    Eduko offers both free and premium courses. Premium courses require a one-time payment or a subscription plan, depending on the course provider.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
+
                         <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                             <AccordionSummary
                                 aria-controls="panel3bh-content"
                                 id="panel3bh-header"
                             >
-                                <Typography>Those who experiment the most, are able to innovate the best.</Typography>
-                
+                                <Typography>3. How do I reset my password?</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum exercitationem pariatur iure nemo esse repellendus est quo recusandae. Delectus, maxime.
+                                    Go to the login page, click “Forgot Password,” and follow the instructions sent to your registered email address.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
+
                         <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
                             <AccordionSummary
                                 aria-controls="panel4bh-content"
                                 id="panel4bh-header"
                             >
-                                <Typography>Understand Your Problem, You must understand the issue.</Typography>
+                                <Typography>4. Can I access courses offline?</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum exercitationem pariatur iure nemo esse repellendus est quo recusandae. Delectus, maxime.
+                                    Some courses allow offline viewing through our mobile app. Simply download the lessons in advance and learn without an internet connection.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>

@@ -1,49 +1,26 @@
 import React from 'react'
-import tsImg from '/public/images/at-single.jpg'
-import cImg1 from '/public/images/certificates/1.jpg'
-import cImg2 from '/public/images/certificates/2.jpg'
-import cImg3 from '/public/images/certificates/3.jpg'
-import cImg4 from '/public/images/certificates/4.jpg'
 import Image from 'next/image'
+import atSingle from '/public/images/at-single.jpg'
 
-const Instructor = () => {
+const Instructor = ({ CoursesDetails }) => {
     return (
         <div className="team-info-wrap">
             <div className="row align-items-center">
                 <div className="col-lg-5">
                     <div className="team-info-img">
-                        <Image src={tsImg} alt="" />
+                        <Image src={CoursesDetails?.author || atSingle} alt={CoursesDetails?.authorName || 'Instructor'} />
                     </div>
                 </div>
                 <div className="col-lg-7">
                     <div className="team-info-text">
-                        <h2>Courtney Henry</h2>
+                        <h2>{CoursesDetails?.authorName || 'Instructor Name'}</h2>
                         <ul>
-                            <li>Position: <span>Web Developer</span></li>
+                            <li>Position: <span>{CoursesDetails?.authortitle || 'Instructor'}</span></li>
                             <li>Experience:<span>12 Years</span></li>
                             <li>Address:<span>6391 Elgin St. Celina, Delaware 10299</span></li>
                             <li>Phone:<span>+00 568 746 987</span></li>
-                            <li>Email:<span>youremail@gmail.com</span></li>
+                            <li>Email:<span>{((CoursesDetails?.authorName || '').toLowerCase().replace(/[^a-z0-9]/g, '')) + '@gmail.com'}</span></li>
                         </ul>
-
-                        <div className="certificates-wrap">
-                            <h2>Certificates</h2>
-
-                            <div className="certificates-items">
-                                <div className="certificates-item">
-                                    <Image src={cImg1} alt="" />
-                                </div>
-                                <div className="certificates-item">
-                                    <Image src={cImg2} alt="" />
-                                </div>
-                                <div className="certificates-item">
-                                    <Image src={cImg3} alt="" />
-                                </div>
-                                <div className="certificates-item">
-                                    <Image src={cImg4} alt="" />
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

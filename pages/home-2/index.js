@@ -8,7 +8,6 @@ import CourseSection from '../../components/CourseSection/CourseSection';
 import Testimonial from '../../components/Testimonial/Testimonial';
 import ChooseSectionS2 from '../../components/ChooseSectionS2/ChooseSectionS2';
 import Newslatter2 from '../../components/Newslatter2/Newslatter2';
-import BlogSection from '../../components/BlogSection/BlogSection';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Footer from '../../components/footer/Footer';
 
@@ -24,7 +23,6 @@ const HomePage2 =() => {
             <Testimonial/>
             <ChooseSectionS2/>
             <Newslatter2/>
-            <BlogSection/>
             <Footer/> 
             <Scrollbar/>
         </Fragment>

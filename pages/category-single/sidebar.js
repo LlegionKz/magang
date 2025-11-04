@@ -1,7 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import blogs from '../../api/blogs'
-import Image from 'next/image'
 
 const Sidebar = (props) => {
 
@@ -29,22 +27,7 @@ const Sidebar = (props) => {
                         <li>Skill Level <span>Advanced</span></li>
                     </ul>
                 </div>
-                <div className="widget recent-post-widget">
-                    <h3>Latest Course</h3>
-                    <div className="posts">
-                        {blogs.map((blog, bl) => (
-                            <div className="post" key={bl}>
-                                <div className="img-holder">
-                                    <Image src={blog.screens} alt="" />
-                                </div>
-                                <div className="details">
-                                    <h4><Link onClick={ClickHandler} href={'/blog-single/[slug]'} as={`/blog-single/${blog.slug}`}>{blog.title}</Link></h4>
-                                    <span className="date">{blog.create_at}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                {/* Latest Course widget removed per request */}
             </div>
         </div>
     )

@@ -7,7 +7,6 @@ import CourseSection from '../../components/CourseSection/CourseSection';
 import Testimonial from '../../components/Testimonial/Testimonial';
 import TeamSection from '../../components/TeamSection/TeamSection';
 import ChooseSection from '../../components/ChooseSection/ChooseSection';
-import BlogSection from '../../components/BlogSection/BlogSection';
 import Newslatter from '../../components/Newslatter/Newslatter';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Footer from '../../components/footer/Footer';
@@ -23,7 +22,6 @@ const HomePage =() => {
             <Testimonial/>
             <TeamSection pbClass={'pb-big'}/>
             <ChooseSection/>
-            <BlogSection/>
             <Newslatter/>
             <Footer/> 
             <Scrollbar/>

@@ -6,7 +6,6 @@ import FunFact from '../../components/FunFact/FunFact';
 import CategorySection2 from '../../components/CategorySection2/CategorySection2';
 import CourseSection from '../../components/CourseSection/CourseSection';
 import Testimonial from '../../components/Testimonial/Testimonial';
-import BlogSection from '../../components/BlogSection/BlogSection';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Footer from '../../components/footer/Footer';
 
@@ -20,7 +19,6 @@ const HomePage4 =() => {
             <CategorySection2 cClass={'wpo-courses-section-s4'}/>
             <CourseSection pClass={'wpo-popular-area-s3'}/>
             <Testimonial tsClass={'wpo-testimonial-section-s2'}/>
-            <BlogSection blClass={'wpo-blog-section-s2'}/>
             <Footer/> 
             <Scrollbar/>
         </Fragment>

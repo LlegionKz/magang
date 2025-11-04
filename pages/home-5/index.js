@@ -7,7 +7,6 @@ import FunFact2 from '../../components/FunFact2/FunFact2';
 import CategorySection from '../../components/CategorySection/CategorySection';
 import CourseSectionS2 from '../../components/CourseSectionS2/CourseSectionS2';
 import TeamSection from '../../components/TeamSection/TeamSection';
-import BlogSection from '../../components/BlogSection/BlogSection';
 import Newslatter2 from '../../components/Newslatter2/Newslatter2';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Footer from '../../components/footer/Footer';
@@ -24,7 +23,6 @@ const HomePage5 =() => {
             <CourseSectionS2/>
             <TeamSection/>
             <Newslatter2/>
-            <BlogSection/>
             <Footer/> 
             <Scrollbar/>
         </Fragment>

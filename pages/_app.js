@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <Head>
-        <title>Eduko - Online Course & Education Next Js Template</title>
+        <title>Eduko</title>
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
