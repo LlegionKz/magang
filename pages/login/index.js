@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Grid from "@mui/material/Grid";
 import SimpleReactValidator from "simple-react-validator";
 import {toast} from "react-toastify";
@@ -8,6 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useRouter } from 'next/router'
 import Link from "next/link";
+import { AuthContext } from '../../context/AuthContext'
 
 
 const LoginPage = (props) => {
@@ -36,26 +37,28 @@ const LoginPage = (props) => {
 
 
 
-    const submitForm = (e) => {
+    const { signIn } = useContext(AuthContext)
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (validator.allValid()) {
-            setValue({
-                email: '',
-                password: '',
-                remember: false
-            });
-            validator.hideMessages();
-
-            const userRegex = /^user+.*/gm;
-            const email = value.email;
-
-            if (email.match(userRegex)) {
-                toast.success('You successfully Login on Eduko !');
-                router.push('/')
-            }
-        } else {
+        if (!validator.allValid()) {
             validator.showMessages();
             toast.error('Empty field is not allowed!');
+            return
+        }
+
+        try {
+            const { data, error } = await signIn({ email: value.email, password: value.password })
+            if (error) {
+                toast.error(error.message || 'Login failed')
+                return
+            }
+            setValue({ email: '', password: '', remember: false })
+            validator.hideMessages();
+            toast.success('You successfully logged in!')
+            router.push('/')
+        } catch (err) {
+            toast.error('Login failed')
         }
     };
     return (

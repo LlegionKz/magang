@@ -43,6 +43,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",
     "swiper": "^8.4.5",
-    "yet-another-react-lightbox": "^3.19.0"
+    "yet-another-react-lightbox": "^3.19.0",
+    "@supabase/supabase-js": "^2.36.0"
   }
 }

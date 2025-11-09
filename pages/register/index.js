@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Grid from "@mui/material/Grid";
 import SimpleReactValidator from "simple-react-validator";
 import {toast} from "react-toastify";
@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from 'next/router'
 import Link from "next/link";
+import { AuthContext } from '../../context/AuthContext'
 
 const SignUpPage = (props) => {
 
@@ -28,21 +29,29 @@ const SignUpPage = (props) => {
     }));
 
 
-    const submitForm = (e) => {
+    const { signUp } = useContext(AuthContext)
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (validator.allValid()) {
-            setValue({
-                email: '',
-                full_name: '',
-                password: '',
-                confirm_password: '',
-            });
-            validator.hideMessages();
-            toast.success('Registration Complete successfully!');
-            router.push('/login')
-        } else {
+        if (!validator.allValid()) {
             validator.showMessages();
             toast.error('Empty field is not allowed!');
+            return
+        }
+
+        try {
+            const { data, error } = await signUp({ email: value.email, password: value.password, full_name: value.full_name })
+            if (error) {
+                toast.error(error.message || 'Registration failed')
+                return
+            }
+            setValue({ email: '', full_name: '', password: '', confirm_password: '' })
+            validator.hideMessages();
+            toast.success('Registration complete!')
+            // after signup, redirect to profile (or login)
+            router.push('/profile')
+        } catch (err) {
+            toast.error('Registration failed')
         }
     };
     return (

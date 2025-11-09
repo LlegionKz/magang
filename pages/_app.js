@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/index";
 import { Provider } from "react-redux";
+import { AuthProvider } from '../context/AuthContext'
 import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -20,11 +21,13 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Eduko</title>
       </Head>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Component {...pageProps} />
-        </PersistGate>
-      </Provider>
+      <AuthProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        </Provider>
+      </AuthProvider>
       <ToastContainer />
     </div>
 

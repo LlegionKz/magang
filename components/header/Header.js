@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Link from 'next/link'
+import { AuthContext } from '../../context/AuthContext'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import Logo from '/public/images/logo.svg'
 import HeaderTopbar from '../HeaderTopbar/HeaderTopbar'
@@ -9,6 +10,7 @@ import Image from 'next/image'
 const Header = (props) => {
 
     const [menuActive, setMenuState] = useState(false);
+    const { user } = useContext(AuthContext)
     const SubmitHandler = (e) => {
         e.preventDefault()
     }
@@ -86,14 +88,23 @@ const Header = (props) => {
                                         </div>
                                     </div>
                                     <div className="close-form">
-                                        <Link onClick={ClickHandler} className="login" href="/login"><span className="text">Sign In</span>
-                                            <span className="mobile">
-                                                <i className="fi flaticon-charity"></i>
-                                            </span></Link>
-                                        <Link onClick={ClickHandler} className="theme-btn" href="/register"><span className="text">Sign Up</span>
-                                            <span className="mobile">
-                                                <i className="fi flaticon-charity"></i>
-                                            </span></Link>
+                                        {user ? (
+                                            <Link onClick={ClickHandler} className="theme-btn" href="/profile"><span className="text">Profile</span>
+                                                <span className="mobile">
+                                                    <i className="fi flaticon-charity"></i>
+                                                </span></Link>
+                                        ) : (
+                                            <>
+                                                <Link onClick={ClickHandler} className="login" href="/login"><span className="text">Sign In</span>
+                                                    <span className="mobile">
+                                                        <i className="fi flaticon-charity"></i>
+                                                    </span></Link>
+                                                <Link onClick={ClickHandler} className="theme-btn" href="/register"><span className="text">Sign Up</span>
+                                                    <span className="mobile">
+                                                        <i className="fi flaticon-charity"></i>
+                                                    </span></Link>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
