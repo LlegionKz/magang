@@ -104,15 +104,6 @@ const CartPage = (props) => {
                   <div className="submit-btn-area">
                     <ul>
                       <li>
-                        <Link
-                          onClick={ClickHandler}
-                          className="theme-btn"
-                          href="/shop"
-                        >
-                          Continue Shopping{" "}
-                        </Link>
-                      </li>
-                      <li>
                         <button type="submit">Update Cart</button>
                       </li>
                     </ul>
