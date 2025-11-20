@@ -29,3 +29,22 @@ CREATE TABLE public.courses (
 );
 
 CREATE UNIQUE INDEX idx_courses_slug ON public.courses (slug);
+
+-- Tabel Keranjang Belanja (Cart)
+CREATE TABLE IF NOT EXISTS public.cart_items (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  course_id uuid REFERENCES public.courses(id) ON DELETE CASCADE NOT NULL,
+  created_at timestamptz DEFAULT now(),
+  UNIQUE(user_id, course_id) -- Mencegah duplikasi item di keranjang
+);
+
+-- Tabel Pendaftaran Kursus (Enrollment/Ownership)
+CREATE TABLE IF NOT EXISTS public.enrollments (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  course_id uuid REFERENCES public.courses(id) ON DELETE CASCADE NOT NULL,
+  enrolled_at timestamptz DEFAULT now(),
+  status text DEFAULT 'active',
+  UNIQUE(user_id, course_id)
+);
