@@ -12,19 +12,18 @@ const Sidebar = (props) => {
             <div className="blog-sidebar">
                 <div className="widget features-widget">
                     <div className="features-top">
-                        <h4>$80.20 <del>$94.99</del></h4>
+                        <h4>$80.20</h4>
                         <span> 5 days left!</span>
                     </div>
                     <div className="cart-btn">
                         <Link onClick={ClickHandler} href="/cart" className="theme-btn-s3">Add to Cart</Link>
                     </div>
                     <ul>
-                        <li>Duration: <span>20 Hours</span></li>
-                        <li>Lessons: <span>24</span></li>
-                        <li>Videos <span>10 Hours</span></li>
-                        <li>Students: <span>Max 100</span></li>
-                        <li>Language: <span>English</span></li>
-                        <li>Skill Level <span>Advanced</span></li>
+                        <li>Duration: <span>{props.courseData?.duration || props.courseData?.videos_duration || '20 Hours'}</span></li>
+                        <li>Lessons: <span>{(typeof props.courseData?.lessons_count === 'number' ? props.courseData.lessons_count : (props.courseData?.lesson ?? 24))}</span></li>
+                        <li>Videos <span>{props.courseData?.videos_duration || '10 Hours'}</span></li>
+                        <li>Language: <span>{props.courseData?.language || 'English'}</span></li>
+                        <li>Skill Level <span>{props.courseData?.skill_level || 'Advanced'}</span></li>
                     </ul>
                 </div>
                 {/* Latest Course widget removed per request */}

@@ -2,6 +2,9 @@ import React from "react";
 import Link from 'next/link'
 import CoursesList from "../../api/CoursesList";
 import Image from "next/image";
+import { getStarsFromCourse, formatStarsValue } from '../../utils'
+
+const GLOBAL_IMAGE = 'https://drive.google.com/uc?id=1uNgVcJcVdH0XGEymUekukJ_pRo0YxrWd'
 
 
 const ClickHandler = () => {
@@ -19,20 +22,20 @@ const CourseSectionList = (props) => {
                                 <div className="wpo-popular-single">
                                     <div className="wpo-popular-item">
                                         <div className="wpo-popular-img">
-                                            <Image src={course.cImg} alt="" />
-                                            <div className="thumb">
-                                                <span>${course.fee}</span>
-                                            </div>
+                                            <Image src={course.image_url || course.cImg || GLOBAL_IMAGE} alt="" width={600} height={400} />
+                                                <div className="thumb">
+                                                    <span>${(Number(course.price || course.fee || 0)).toFixed(2)}</span>
+                                                </div>
                                         </div>
                                         <div className="wpo-popular-content">
                                             <div className="wpo-popular-text-top">
                                                 <ul>
-                                                    <li><Image src={course.author} alt="" /></li>
+                                                    <li><Image src={course.author || course.authorImg || GLOBAL_IMAGE} alt="" width={40} height={40} /></li>
                                                     <li><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{course.authortitle}</Link></li>
                                                 </ul>
                                                 <ul>
                                                     <li><i className="fi flaticon-star"></i></li>
-                                                    <li>({course.ratting})</li>
+                                                    <li>({formatStarsValue(getStarsFromCourse(course))})</li>
                                                 </ul>
                                             </div>
                                             <h2><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{course.title}</Link>

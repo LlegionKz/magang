@@ -1973,6 +1973,17 @@ img {
     visibility: visible;
     opacity: 1;
   }
+  /* Active dropdown item and parent styling: yellow indicator */
+  .wpo-site-header #navbar .sub-menu li a.active {
+    color: #F2BC00;
+    font-weight: 700;
+  }
+  /* Ensure parent menu also shows active underline via existing :before rule (a.active:before) */
+  .wpo-site-header #navbar > ul > li.menu-item-has-children.active > a:before {
+    opacity: 1;
+    visibility: visible;
+    width: 100%;
+  }
 }
 
 .wpo-site-header .container-fluid {

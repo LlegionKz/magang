@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Navbar from '../../components/Navbar/Navbar';
 import PageTitle from "../../components/pagetitle/PageTitle";
 import Scrollbar from "../../components/scrollbar/scrollbar";
@@ -6,6 +6,7 @@ import { Button, Grid } from "@mui/material";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { totalPrice } from "../../utils";
+import { supabase } from '../../lib/supabaseClient'
 import {
   removeFromCart,
   incrementQuantity,
@@ -19,6 +20,34 @@ const CartPage = (props) => {
   };
 
   const { carts } = props;
+  const [serverCart, setServerCart] = useState(null)
+  const [loadingServerCart, setLoadingServerCart] = useState(false)
+
+  const fetchServerCart = async () => {
+    setLoadingServerCart(true)
+    try {
+      const { data } = await supabase.auth.getSession()
+      const token = data?.session?.access_token
+      if (!token) {
+        setServerCart(null)
+        return
+      }
+      const res = await fetch('/api/cart', { headers: { Authorization: `Bearer ${token}` } })
+      const json = await res.json()
+      if (json?.cart) setServerCart(json.cart)
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('fetchServerCart error', e)
+      setServerCart(null)
+    } finally {
+      setLoadingServerCart(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchServerCart()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Fragment>
@@ -34,63 +63,37 @@ const CartPage = (props) => {
                     <table className="table-responsive cart-wrap">
                       <thead>
                         <tr>
-                          <th className="images images-b">Image</th>
                           <th className="product-2">Product Name</th>
-                          <th className="pr">Quantity</th>
                           <th className="ptice">Price</th>
                           <th className="stock">Total Price</th>
                           <th className="remove remove-b">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {carts &&
-                          carts.length > 0 &&
-                          carts.map((catItem, crt) => (
+                          {(serverCart || carts) &&
+                            (serverCart || carts).length > 0 &&
+                            (serverCart || carts).map((catItem, crt) => (
                             <tr key={crt}>
-                              <td className="images">
-                                <img src={catItem.proImg} alt="" />
-                              </td>
                               <td className="product">
                                 <ul>
                                   <li className="first-cart">
-                                    {catItem.title}
+                                    {catItem.title || catItem.name || ''}
                                   </li>
-                                  <li>Brand : {catItem.brand}</li>
-                                  <li>Size : {catItem.size}</li>
+                                  <li>Brand : {catItem.brand || ''}</li>
+                                  <li>Size : {catItem.size || ''}</li>
                                 </ul>
                               </td>
-                              <td className="stock">
-                                <div className="pro-single-btn">
-                                  <Grid className="quantity cart-plus-minus">
-                                    <Button
-                                      className="dec qtybutton"
-                                      onClick={() =>
-                                        props.decrementQuantity(catItem.id)
-                                      }
-                                    >
-                                      -
-                                    </Button>
-                                    <input value={catItem.qty} type="text" />
-                                    <Button
-                                      className="inc qtybutton"
-                                      onClick={() =>
-                                        props.incrementQuantity(catItem.id)
-                                      }
-                                    >
-                                      +
-                                    </Button>
-                                  </Grid>
-                                </div>
-                              </td>
-                              <td className="ptice">${catItem.qty * catItem.price}</td>
-                              <td className="stock">${catItem.qty * catItem.price}</td>
+                              <td className="ptice">${(catItem.price || 0).toFixed(2)}</td>
+                              <td className="stock">${(catItem.price || 0).toFixed(2)}</td>
                               <td className="action">
                                 <ul>
                                   <li
                                     className="w-btn"
-                                    onClick={() =>
+                                    onClick={async () => {
                                       props.removeFromCart(catItem.id)
-                                    }
+                                      // refresh server cart view
+                                      await fetchServerCart()
+                                    }}
                                   >
                                     <i className="fi ti-trash"></i>
                                   </li>
@@ -101,13 +104,7 @@ const CartPage = (props) => {
                       </tbody>
                     </table>
                   </form>
-                  <div className="submit-btn-area">
-                    <ul>
-                      <li>
-                        <button type="submit">Update Cart</button>
-                      </li>
-                    </ul>
-                  </div>
+                  {/* Quantity controls and Update Cart button removed per request */}
                   <div className="cart-product-list">
                     <ul>
                       <li>
@@ -115,15 +112,6 @@ const CartPage = (props) => {
                       </li>
                       <li>
                         Sub Price<span>${totalPrice(carts)}</span>
-                      </li>
-                      <li>
-                        Vat<span>$0</span>
-                      </li>
-                      <li>
-                        Eco Tax<span>$0</span>
-                      </li>
-                      <li>
-                        Delivery Charge<span>$0</span>
                       </li>
                       <li className="cart-b">
                         Total Price<span>${totalPrice(carts)}</span>

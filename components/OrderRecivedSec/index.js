@@ -7,6 +7,8 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import {totalPrice} from "../../utils";
 
+const GLOBAL_IMAGE = 'https://drive.google.com/uc?export=view&id=1uNgVcJcVdH0XGEymUekukJ_pRo0YxrWd'
+
 const OrderRecivedSec = ({cartList}) => {
     return(
         <section className="cart-recived-section section-padding">
@@ -23,13 +25,21 @@ const OrderRecivedSec = ({cartList}) => {
                                         <h4>Order details</h4>
                                         <Table>
                                             <TableBody>
-                                                {cartList.map(item => (
+                                                {cartList.map(item => {
+                                                    const imgSrc = item.image_url || item.proImg || item.proImgUrl || item.image || GLOBAL_IMAGE
+                                                    const qty = item.qty || 1
+                                                    const price = Number(item.price || item.price_amount || 0)
+                                                    const lineTotal = (qty * price).toFixed(2)
+                                                    return (
                                                     <TableRow key={item.id}>
-                                                        <TableCell><img src={item.proImg} alt="" /> {item.title} ${item.price} x {item.qty}</TableCell>
-                                                        <TableCell
-                                                            align="right">${item.qty * item.price}</TableCell>
+                                                        <TableCell>
+                                                            <img src={imgSrc} alt={item.title || ''} style={{width:64,height:64,objectFit:'cover',marginRight:12}} />
+                                                            <span>{item.title || item.name || ''} ${price.toFixed(2)} x {qty}</span>
+                                                        </TableCell>
+                                                        <TableCell align="right">${lineTotal}</TableCell>
                                                     </TableRow>
-                                                ))}
+                                                    )
+                                                })}
                                                 <TableRow className="totalProduct">
                                                     <TableCell>Total product</TableCell>
                                                     <TableCell align="right">{cartList.length}</TableCell>

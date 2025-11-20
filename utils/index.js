@@ -24,6 +24,41 @@ function searchFilter(row, search) {
     return row.title.toLowerCase().includes(search.toLowerCase()) || !search;
 }
 
+// Image helpers
+function isValidImageSrc(src) {
+    if (!src || typeof src !== 'string') return false;
+    const s = src.trim();
+    return s.startsWith('/') || s.startsWith('http://') || s.startsWith('https://');
+}
+
+function safeImageSrc(src, fallback) {
+    return isValidImageSrc(src) ? src : fallback;
+}
+
+// Rating helpers
+function getStarsFromCourse(course) {
+    if (!course) return 0;
+    // prefer explicit numeric `stars` column
+    if (typeof course.stars === 'number') return Number(course.stars);
+    if (course.stars && !isNaN(Number(course.stars))) return Number(course.stars);
+    // fallback: compute average from reviews array
+    if (Array.isArray(course.reviews) && course.reviews.length > 0) {
+        const sum = course.reviews.reduce((s, r) => s + (Number(r.rating) || 0), 0);
+        return Math.round((sum / course.reviews.length) * 10) / 10;
+    }
+    // legacy field `ratting`
+    if (typeof course.ratting === 'number') return Number(course.ratting);
+    if (course.ratting && !isNaN(Number(course.ratting))) return Number(course.ratting);
+    return 0;
+}
+
+function formatStarsValue(v) {
+    const n = Number(v) || 0;
+    // show one decimal if fractional, otherwise show integer
+    if (Math.abs(n - Math.round(n)) < 0.0001) return String(Math.round(n));
+    return String(n.toFixed(1));
+}
+
 // short helper function
 function checkLengNull(data) {
     if (data !== null) {
@@ -98,4 +133,8 @@ export {
     minValueOne,
     getCompareList,
     searchFilter
+    , isValidImageSrc
+    , safeImageSrc
+    , getStarsFromCourse
+    , formatStarsValue
 };

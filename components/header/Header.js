@@ -5,12 +5,18 @@ import MobileMenu from '../MobileMenu/MobileMenu'
 import Logo from '/public/images/logo.svg'
 import HeaderTopbar from '../HeaderTopbar/HeaderTopbar'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 
 const Header = (props) => {
 
     const [menuActive, setMenuState] = useState(false);
     const { user } = useContext(AuthContext)
+    const router = useRouter()
+
+    const isActive = (path) => router && router.pathname === path
+    const pagesPaths = ['/lesson','/gallery','/testimonial','/teacher','/become-teacher','/faq']
+    const isPagesActive = pagesPaths.includes(router && router.pathname)
     const SubmitHandler = (e) => {
         e.preventDefault()
     }
@@ -42,51 +48,38 @@ const Header = (props) => {
                                     <button className="menu-close"><i className="ti-close"></i></button>
                                     <ul className="nav navbar-nav mb-2 mb-lg-0">
                                         <li>
-                                            <Link onClick={ClickHandler} href="/home">Home</Link>
+                                            <Link onClick={ClickHandler} href="/home" className={isActive('/home') ? 'active' : ''}>Home</Link>
                                         </li>
-                                        <li><Link onClick={ClickHandler} href="/about">About</Link></li>
                                         <li>
-                                            <Link onClick={ClickHandler} href="/course">Courses</Link>
+                                            <Link onClick={ClickHandler} href="/about" className={isActive('/about') ? 'active' : ''}>About</Link>
                                         </li>
-                                        <li className="menu-item-has-children">
-                                            <Link onClick={ClickHandler} href="/">Pages</Link>
+                                        <li>
+                                            <Link onClick={ClickHandler} href="/course" className={isActive('/course') ? 'active' : ''}>Courses</Link>
+                                        </li>
+                                        <li className={`menu-item-has-children ${isPagesActive ? 'active' : ''}`}>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); }} className={isPagesActive ? 'active' : ''}>Pages</a>
                                             <ul className="sub-menu">
-                                                <li><Link onClick={ClickHandler} href="/lesson">Lesson</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/gallery">Gallery</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/testimonial">Testimonial</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/teacher">Teachers</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/lesson" className={isActive('/lesson') ? 'active' : ''}>Lesson</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/gallery" className={isActive('/gallery') ? 'active' : ''}>Gallery</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/testimonial" className={isActive('/testimonial') ? 'active' : ''}>Testimonial</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/teacher" className={isActive('/teacher') ? 'active' : ''}>Teachers</Link></li>
                                                 
-                                                <li><Link onClick={ClickHandler} href="/become-teacher">Become Teacher</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/faq">FAQ</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/become-teacher" className={isActive('/become-teacher') ? 'active' : ''}>Become Teacher</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/faq" className={isActive('/faq') ? 'active' : ''}>FAQ</Link></li>
                                                 
                                             </ul>
                                         </li>
                                         {/* Blog link removed as requested */}
                                         <li>
-                                            <Link onClick={ClickHandler} href="/cart">Cart</Link>
+                                            <Link onClick={ClickHandler} href="/cart" className={isActive('/cart') ? 'active' : ''}>Cart</Link>
                                         </li>
-                                        <li><Link onClick={ClickHandler} href="/contact">Contact</Link></li>
+                                        <li><Link onClick={ClickHandler} href="/contact" className={isActive('/contact') ? 'active' : ''}>Contact</Link></li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-lg-3 col-md-3 col-2">
                                 <div className="header-right">
-                                    <div className="header-search-form-wrapper">
-                                        <div className="cart-search-contact">
-                                            <button onClick={() => setMenuState(!menuActive)} className="search-toggle-btn"><i
-                                                className={`fi ti-search ${menuActive ? "ti-close" : "fi "}`}></i></button>
-                                            <div className={`header-search-form ${menuActive ? "header-search-content-toggle" : ""}`}>
-                                                <form onSubmit={SubmitHandler}>
-                                                    <div>
-                                                        <input type="text" className="form-control"
-                                                            placeholder="Search here..." />
-                                                        <button type="submit"><i
-                                                            className="fi flaticon-search"></i></button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {/* Search icon removed per user request */}
                                     <div className="close-form">
                                         {user ? (
                                             <Link onClick={ClickHandler} className="theme-btn" href="/profile"><span className="text">Profile</span>

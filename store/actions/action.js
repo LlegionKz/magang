@@ -26,6 +26,20 @@ export const addToCart = (product, qty, color, size) => (dispatch) => {
     color,
     size,
   });
+
+  // Best-effort sync to server: try to call API to persist cart item.
+  // This is non-blocking and errors are caught locally.
+  (async () => {
+    try {
+      await fetch('/api/cart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ course_id: product.id, qty: qty || 1 })
+      })
+    } catch (e) {
+      // ignore sync errors for now; UI already updated optimistically
+    }
+  })()
 };
 
 export const removeFromCart = (product_id) => (dispatch) => {
@@ -34,6 +48,19 @@ export const removeFromCart = (product_id) => (dispatch) => {
     type: types.REMOVE_FROM_CART,
     product_id,
   });
+
+  // attempt best-effort server sync
+  (async () => {
+    try {
+      await fetch('/api/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ course_id: product_id })
+      })
+    } catch (e) {
+      // ignore
+    }
+  })()
 };
 
 export const incrementQuantity = (product_id) => (dispatch) => {

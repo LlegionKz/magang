@@ -1,5 +1,5 @@
 import React from "react";
-import Link from 'next/link'
+// links removed to make category cards non-clickable
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,9 +7,7 @@ import CoursesCategory from '../../api/CoursesCategory'
 import Image from "next/image";
 
 
-const ClickHandler = () => {
-    window.scrollTo(10, 0);
-}
+// click handler removed to disable navigation from category cards
 
 const settings = {
     dots: false,
@@ -96,7 +94,7 @@ const CategorySection3 = (props) => {
                                         <Image src={category.cImg} alt="" />
                                     </div>
                                     <div className="wpo-courses-text">
-                                        <h2><Link onClick={ClickHandler} href={'/category-single/[slug]'} as={`/category-single/${category.slug}`}>{category.title}</Link></h2>
+                                        <h2><span style={{cursor: 'default', color: '#000'}}>{category.title}</span></h2>
                                         <p>{category.description}</p>
                                     </div>
                                 </div>

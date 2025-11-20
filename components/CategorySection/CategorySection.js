@@ -1,5 +1,5 @@
 import React from "react";
-import Link from 'next/link'
+// links removed to make category cards non-clickable
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,9 +11,7 @@ import cImag4 from '/public/images/shape/4.svg'
 import Image from "next/image";
 
 
-const ClickHandler = () => {
-    window.scrollTo(10, 0);
-}
+// click handler removed to disable navigation from category cards
 
 const settings = {
     dots: false,
@@ -101,7 +99,7 @@ const CategorySection = (props) => {
                                         <div className="courses-icon">
                                             <i className={`fi ${category.thumb}`}></i>
                                         </div>
-                                        <h2><Link onClick={ClickHandler} href={'/category-single/[slug]'} as={`/category-single/${category.slug}`}>{category.title}</Link></h2>
+                                        <h2><span style={{cursor: 'default', color: '#000'}}>{category.title}</span></h2>
                                         <p>{category.description}</p>
                                     </div>
                                 </div>

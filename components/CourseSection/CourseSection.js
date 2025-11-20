@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from 'next/link'
 import Courses from "../../api/Courses";
 import Image from "next/image";
+import { isValidImageSrc, safeImageSrc, getStarsFromCourse, formatStarsValue } from '../../utils'
+
+const GLOBAL_IMAGE = 'https://drive.google.com/uc?id=1uNgVcJcVdH0XGEymUekukJ_pRo0YxrWd'
 
 
 const ClickHandler = () => {
@@ -9,6 +12,29 @@ const ClickHandler = () => {
 }
 
 const CourseSection = (props) => {
+    const [clientCourses, setClientCourses] = useState(Array.isArray(props.courses) && props.courses.length > 0 ? props.courses : null)
+    
+
+    useEffect(() => {
+        // if server didn't provide courses, fetch on client to ensure up-to-date data
+        if (!clientCourses) {
+            fetch('/api/courses?page=1&limit=6')
+                .then(r => r.json())
+                .then(json => {
+                    if (json && (json.courses || json.ok && json.courses)) {
+                        const list = json.courses || json.courses || []
+                        setClientCourses(list)
+                    } else if (json && json.ok && Array.isArray(json.courses)) {
+                        setClientCourses(json.courses)
+                    }
+                }).catch(() => {})
+        }
+    }, [clientCourses])
+
+    const source = (Array.isArray(props.courses) && props.courses.length > 0) ? props.courses : (Array.isArray(clientCourses) ? clientCourses : Courses)
+
+    
+
     return (
         <div className={`wpo-popular-area section-padding ${props.pClass}`}>
             <div className="container">
@@ -25,44 +51,52 @@ const CourseSection = (props) => {
                             </i>
                         </span>
                     </h2>
+                    
                 </div>
                 <div className="wpo-popular-wrap">
                     <div className="row">
-                        {Courses.slice(0, 3).map((course, aitem) => (
-                            <div className="col col-lg-4 col-md-6 col-12" key={aitem}>
-                                <div className="wpo-popular-single">
-                                    <div className="wpo-popular-item">
-                                        <div className="wpo-popular-img">
-                                            <Image src={course.cImg} alt=""/>
-                                                <div className="thumb">
-                                                    <span>${course.fee}</span>
-                                                </div>
-                                        </div>
-                                        <div className="wpo-popular-content">
-                                            <div className="wpo-popular-text-top">
-                                                <ul>
-                                                    <li><Image src={course.author} alt=""/></li>
-                                                    <li><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{course.authortitle}</Link></li>
-                                                </ul>
-                                                <ul>
-                                                    <li><i className="fi flaticon-star"></i></li>
-                                                    <li>({course.ratting})</li>
-                                                </ul>
-                                            </div>
-                                            <h2><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{course.title}</Link>
-                                            </h2>
+                            {source.slice(0, 3).map((course, aitem) => {
+                                const rawInstructor = (course.instructor && (course.instructor.avatar || course.instructor.image || course.instructor.avatar_url)) || course.author || course.authorImg
+                                const instructorImg = safeImageSrc(rawInstructor, GLOBAL_IMAGE)
+                                const instructorName = (course.instructor && (course.instructor.name || course.instructor.fullname)) || course.authortitle || 'Instructor'
+                                const lessonsCount = (typeof course.lessons_count === 'number' ? course.lessons_count : (typeof course.lesson === 'number' ? course.lesson : (Array.isArray(course.curriculum) ? course.curriculum.reduce((sum, s) => sum + ((s.items && s.items.length) || 0), 0) : 0)))
+                                const stars = getStarsFromCourse(course)
 
-                                            <div className="wpo-popular-text-bottom">
-                                                <ul>
-                                                    <li><i className="fi flaticon-reading-book"></i> {course.student} Students</li>
-                                                    <li><i className="fi flaticon-agenda"></i> {course.lesson} Lesson</li>
-                                                </ul>
+                                return (
+                                    <div className="col col-lg-4 col-md-6 col-12" key={aitem}>
+                                        <div className="wpo-popular-single">
+                                            <div className="wpo-popular-item">
+                                                <div className="wpo-popular-img">
+                                                    <Image src={course.image_url || course.cImg || GLOBAL_IMAGE} alt="" width={600} height={400} />
+                                                    <div className="thumb">
+                                                        <span>${(Number(course.price || course.fee || 0)).toFixed(2)}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="wpo-popular-content">
+                                                    <div className="wpo-popular-text-top">
+                                                        <ul>
+                                                            <li><Image src={instructorImg} alt={instructorName} width={40} height={40} /></li>
+                                                            <li><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{instructorName}</Link></li>
+                                                        </ul>
+                                                        <ul>
+                                                            <li><i className="fi flaticon-star"></i></li>
+                                                            <li>({formatStarsValue(stars)})</li>
+                                                        </ul>
+                                                    </div>
+                                                    <h2><Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{course.title}</Link>
+                                                    </h2>
+
+                                                    <div className="wpo-popular-text-bottom">
+                                                        <ul>
+                                                            <li><i className="fi flaticon-agenda"></i> {lessonsCount} Lesson{lessonsCount !== 1 ? 's' : ''}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
+                                )
+                            })}
 
                     </div>
                 </div>

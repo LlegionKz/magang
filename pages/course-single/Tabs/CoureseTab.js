@@ -1,32 +1,11 @@
 import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import Overview from './Overview';
-import Ov1 from './Overviews/Overview_1';
-import Ov2 from './Overviews/Overview_2';
-import Ov3 from './Overviews/Overview_3';
-import Ov4 from './Overviews/Overview_4';
-import Ov5 from './Overviews/Overview_5';
-import Ov6 from './Overviews/Overview_6';
-import Curriculum from './Curriculum';
-import Instructor from './Instructor';
-import Review from './Review';
-import Rv1 from './Reviews/Review_1';
-import Rv2 from './Reviews/Review_2';
-import Rv3 from './Reviews/Review_3';
-import Rv4 from './Reviews/Review_4';
-import Rv5 from './Reviews/Review_5';
-import Rv6 from './Reviews/Review_6';
-import Curr1 from './Curricula/Curriculum_1';
-import Curr2 from './Curricula/Curriculum_2';
-import Curr3 from './Curricula/Curriculum_3';
-import Curr4 from './Curricula/Curriculum_4';
-import Curr5 from './Curricula/Curriculum_5';
-import Curr6 from './Curricula/Curriculum_6';
 
 
+const GLOBAL_IMAGE = 'https://drive.google.com/uc?id=1uNgVcJcVdH0XGEymUekukJ_pRo0YxrWd'
 
-const CoureseTab = ({ CoursesDetails }) => {
+const CoureseTab = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = tab => {
@@ -79,49 +58,81 @@ const CoureseTab = ({ CoursesDetails }) => {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                {/* course-specific overview */}
-                {CoursesDetails?.Id === '1' && <Ov1 />}
-                {CoursesDetails?.Id === '2' && <Ov2 />}
-                {CoursesDetails?.Id === '3' && <Ov3 />}
-                {CoursesDetails?.Id === '4' && <Ov4 />}
-                {CoursesDetails?.Id === '5' && <Ov5 />}
-                {CoursesDetails?.Id === '6' && <Ov6 />}
-                {!CoursesDetails?.Id && <Overview />}
+                {/* Dynamic Overview */}
+                {courseData?.overview ? (
+                  <div className="course-overview" dangerouslySetInnerHTML={{ __html: courseData.overview }} />
+                ) : (
+                  <p>No overview available for this course.</p>
+                )}
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                {/* Render course-specific curriculum if available */}
-                {CoursesDetails?.Id === '1' && <Curr1 />}
-                {CoursesDetails?.Id === '2' && <Curr2 />}
-                {CoursesDetails?.Id === '3' && <Curr3 />}
-                {CoursesDetails?.Id === '4' && <Curr4 />}
-                {CoursesDetails?.Id === '5' && <Curr5 />}
-                {CoursesDetails?.Id === '6' && <Curr6 />}
-                {!CoursesDetails?.Id && <Curriculum />}
+                {/* Curriculum: expect array of sections */}
+                {Array.isArray(courseData?.curriculum) && courseData.curriculum.length > 0 ? (
+                  courseData.curriculum.map((section, idx) => (
+                    <div key={idx} className="curriculum-section">
+                      <h4>{section.title || `Section ${idx + 1}`}</h4>
+                      {Array.isArray(section.lessons) && (
+                        <ul>
+                          {section.lessons.map((lesson, j) => (
+                            <li key={j}>{lesson.title || `Lesson ${j + 1}`} {lesson.duration ? ` - ${lesson.duration}` : ''}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p>No curriculum available.</p>
+                )}
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <Instructor CoursesDetails={CoursesDetails} />
+                {/* Instructor */}
+                {courseData?.instructor ? (
+                  <div className="team-info-wrap">
+                    <div className="row align-items-center">
+                      <div className="col-lg-5">
+                        <div className="team-info-img">
+                          <img src={courseData.instructor.avatar_url || GLOBAL_IMAGE} alt={courseData.instructor.name || 'Instructor'} width={200} />
+                        </div>
+                      </div>
+                      <div className="col-lg-7">
+                        <div className="team-info-text">
+                          <h2>{courseData.instructor.name || 'Instructor Name'}</h2>
+                          <ul>
+                            <li>Position: <span>{courseData.instructor.title || 'Instructor'}</span></li>
+                            <li>Bio: <span>{courseData.instructor.bio || ''}</span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p>No instructor information available.</p>
+                )}
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="4">
             <Row>
               <Col sm="12">
-                {/* course-specific reviews */}
-                {CoursesDetails?.Id === '1' && <Rv1 />}
-                {CoursesDetails?.Id === '2' && <Rv2 />}
-                {CoursesDetails?.Id === '3' && <Rv3 />}
-                {CoursesDetails?.Id === '4' && <Rv4 />}
-                {CoursesDetails?.Id === '5' && <Rv5 />}
-                {CoursesDetails?.Id === '6' && <Rv6 />}
-                {!CoursesDetails?.Id && <Review />}
+                {/* Reviews list */}
+                {Array.isArray(courseData?.reviews) && courseData.reviews.length > 0 ? (
+                  courseData.reviews.map((r, i) => (
+                    <div key={i} className="review-item">
+                      <h5>{r.user_name || 'Anonymous'} <span>({r.rating || 0})</span></h5>
+                      <p>{r.comment}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No reviews yet.</p>
+                )}
               </Col>
             </Row>
           </TabPane>

@@ -6,6 +6,10 @@ const nextConfig = {
     outputFileTracingRoot: undefined,
   },
   output: 'standalone',
+  images: {
+    // allow loading images from Google Drive (uc links) and Google usercontent
+    domains: ['drive.google.com', 'lh3.googleusercontent.com']
+  },
 }
 
 module.exports = nextConfig
