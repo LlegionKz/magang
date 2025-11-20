@@ -78,10 +78,14 @@ export async function getServerSideProps(context) {
             overview: course.overview || course.description || '',
             curriculum: Array.isArray(course.curriculum) ? course.curriculum : (course.curriculum ? [course.curriculum] : []),
             instructor: (course.instructor && typeof course.instructor === 'object') ? {
-                name: course.instructor.name || course.instructor.full_name || '',
+                name: course.instructor.name || course.instructor.full_name || course.instructor.authorName || '',
+                authorName: course.instructor.authorName || course.instructor.name || course.instructor.full_name || '',
                 avatar: course.instructor.avatar || course.instructor.avatar_url || course.instructor.image || '',
                 avatar_url: course.instructor.avatar || course.instructor.avatar_url || course.instructor.image || '',
-                bio: course.instructor.bio || course.instructor.description || ''
+                bio: course.instructor.bio || course.instructor.description || '',
+                // include title/position from DB so UI can display it
+                title: course.instructor.title || course.instructor.authortitle || '',
+                position: course.instructor.position || course.instructor.title || ''
             } : {},
             reviews: Array.isArray(course.reviews) ? course.reviews.map(r => ({
                 user_name: r.user_name || r.user || r.name || 'Anonymous',

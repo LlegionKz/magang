@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import Collapse from "@mui/material/Collapse";
 import FontAwesome from "../../components/UiStyle/FontAwesome";
@@ -17,7 +17,11 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Link from 'next/link'
-import {totalPrice} from "../../utils";
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
+import { clearCart } from '../../store/actions/action'
+import supabase from '../../lib/supabaseClient'
+// totalPrice util not used here; totals are computed from props
 import Image from 'next/image'
 
 // images
@@ -48,7 +52,10 @@ const cardType = [
 ];
 
 
-const CheckoutSection = ({cartList}) => {
+const CheckoutSection = ({cartList = [], subTotal: propSubTotal = null, totalPrice: propTotalPrice = null, loading = false}) => {
+    const dispatch = useDispatch()
+    const router = useRouter()
+    const [placing, setPlacing] = useState(false)
     // states
     const [tabs, setExpanded] = React.useState({
         cupon: false,
@@ -100,6 +107,50 @@ const CheckoutSection = ({cartList}) => {
     const changeHandler = e => {
         setForms({...forms, [e.target.name]: e.target.value})
     };
+
+    // Place order handler: call backend to create order, enroll courses and clear server cart
+    const handlePlaceOrder = async (e) => {
+        e && e.preventDefault && e.preventDefault()
+        try {
+            setPlacing(true)
+
+            // get session and access token
+            const { data: sessionData } = await supabase.auth.getSession()
+            const session = sessionData?.session || null
+            if (!session || !session.user) {
+                router.push('/login')
+                return
+            }
+            const token = session.access_token
+
+            const resp = await fetch('/api/checkout/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            const json = await resp.json().catch(() => ({}))
+            if (!resp.ok) {
+                const message = json?.message || json?.error || 'Failed to place order'
+                // eslint-disable-next-line no-alert
+                alert(message)
+                return
+            }
+
+            // success: clear client cart and redirect to order received
+            dispatch(clearCart())
+            router.push('/order-received')
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('place order error', err)
+            // eslint-disable-next-line no-alert
+            alert('Failed to place order')
+        } finally {
+            setPlacing(false)
+        }
+    }
 
 
     return (
@@ -449,13 +500,13 @@ const CheckoutSection = ({cartList}) => {
                                                     </Grid>
                                                 ))}
                                             </Grid>
-                                            <Grid>
-                                                <CheckWrap/>
-                                            </Grid>
+                                                <Grid>
+                                                    <CheckWrap onPlaceOrder={handlePlaceOrder} />
+                                                </Grid>
                                         </Collapse>
                                         <Collapse in={forms.payment_method === 'card'} timeout="auto">
                                             <Grid className="cardType">
-                                                <Link href='/order_received' className="cBtn cBtnLarge cBtnTheme mt-20 ml-15" type="submit">Proceed to Checkout</Link>
+                                                <Button disabled={placing} onClick={handlePlaceOrder} className="cBtn cBtnLarge cBtnTheme mt-20 ml-15" type="button">{placing ? 'Placing...' : 'Place Order'}</Button>
                                             </Grid>
                                         </Collapse>
                                     </Collapse>
@@ -471,26 +522,32 @@ const CheckoutSection = ({cartList}) => {
                                         <h4>Cart Total</h4>
                                         <Table>
                                             <TableBody>
-                                                {cartList.map(item => (
-                                                    <TableRow key={item.id}>
-                                                        <TableCell>{item.title} ${item.price} x {item.qty}</TableCell>
-                                                        <TableCell
-                                                            align="right">${item.qty * item.price}</TableCell>
+                                                {loading ? (
+                                                    <TableRow>
+                                                        <TableCell colSpan={2} style={{textAlign: 'center'}}>Loading...</TableCell>
                                                     </TableRow>
-                                                ))}
-                                                <TableRow className="totalProduct">
-                                                    <TableCell>Total Item</TableCell>
-                                                    <TableCell align="right">{cartList.length}</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Sub Price</TableCell>
-                                                    <TableCell align="right">${totalPrice(cartList)}</TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Total Price</TableCell>
-                                                    <TableCell
-                                                        align="right">${totalPrice(cartList)}</TableCell>
-                                                </TableRow>
+                                                ) : (
+                                                    <> 
+                                                        {cartList.map(item => (
+                                                            <TableRow key={item.id}>
+                                                                <TableCell>{item.title} - ${Number(item.price || 0).toFixed(2)}</TableCell>
+                                                                <TableCell align="right">${Number(item.price || 0).toFixed(2)}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                        <TableRow className="totalProduct">
+                                                            <TableCell>Total Item</TableCell>
+                                                            <TableCell align="right">{cartList.length}</TableCell>
+                                                        </TableRow>
+                                                        <TableRow>
+                                                            <TableCell>Sub Price</TableCell>
+                                                            <TableCell align="right">${(propSubTotal != null ? Number(propSubTotal) : cartList.reduce((s,it) => s + (Number(it.price || 0)), 0)).toFixed(2)}</TableCell>
+                                                        </TableRow>
+                                                        <TableRow>
+                                                            <TableCell>Total Price</TableCell>
+                                                            <TableCell align="right">${(propTotalPrice != null ? Number(propTotalPrice) : cartList.reduce((s,it) => s + (Number(it.price || 0)), 0)).toFixed(2)}</TableCell>
+                                                        </TableRow>
+                                                    </>
+                                                )}
                                             </TableBody>
                                         </Table>
                                     </Grid>

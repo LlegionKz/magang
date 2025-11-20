@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 
 
 const CheckWrap = (props) => {
+    const { onPlaceOrder } = props || {}
 
     const router = useRouter()
 
@@ -34,33 +35,49 @@ const CheckWrap = (props) => {
         className: 'errorMessage'
     }));
 
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (validator.allValid()) {
-            setValue({
-                email: '',
-                password: '',
-                card_holder: '',
-                card_number: '',
-                cvv: '',
-                expire_date: '',
-                remember: false
-            });
-            validator.hideMessages();
-
-            const userRegex = /^user+.*/gm;
-            const email = value.email;
-
-            if (email.match(userRegex)) {
-                toast.success('Order Recived sucessfully!');
-                router.push('/order-received')
-            }  else {
-                toast.info('user not existed!');
-                alert('user not existed! credential is : user@*****.com | vendor@*****.com | admin@*****.com');
-            }
-        } else {
+        if (!validator.allValid()) {
             validator.showMessages();
-            toast.error('Empty field is not allowed!');
+            // eslint-disable-next-line no-console
+            return toast.error('Empty field is not allowed!');
+        }
+
+        // If parent passed an onPlaceOrder handler, call it (it should handle token/session)
+        if (typeof onPlaceOrder === 'function') {
+            try {
+                await onPlaceOrder()
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                console.error('onPlaceOrder error', err)
+                // show a fallback message
+                // eslint-disable-next-line no-alert
+                alert(err?.message || 'Failed to process order')
+            }
+            return
+        }
+
+        // Fallback demo behavior (preserve existing demo flow)
+        setValue({
+            email: '',
+            password: '',
+            card_holder: '',
+            card_number: '',
+            cvv: '',
+            expire_date: '',
+            remember: false
+        });
+        validator.hideMessages();
+
+        const userRegex = /^user+.*/gm;
+        const email = value.email;
+
+        if (email.match(userRegex)) {
+            toast.success('Order Recived sucessfully!');
+            router.push('/order-received')
+        }  else {
+            toast.info('user not existed!');
+            alert('user not existed! credential is : user@*****.com | vendor@*****.com | admin@*****.com');
         }
     };
     return (

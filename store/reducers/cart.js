@@ -12,6 +12,9 @@ const init = {
 
 export const cartReducer = (state = init, action) => {
   switch (action.type) {
+    case 'CLEAR_CART':
+      return { ...state, cart: [] };
+    
     case ADD_TO_CART:
       {
         const productId = action.product.id

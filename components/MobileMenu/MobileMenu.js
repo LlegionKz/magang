@@ -78,8 +78,8 @@ const menus = [
         submenu: [
             {
                 id: 31,
-                title: 'Lesson',
-                link: '/lesson'
+                title: 'My Courses',
+                link: '/student/courses'
             },
             {
                 id: 2,

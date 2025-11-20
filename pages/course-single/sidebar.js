@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { addToCart } from '../../store/actions/action'
+import supabase from '../../lib/supabaseClient'
 
 const Sidebar = (props) => {
 
@@ -13,23 +14,68 @@ const Sidebar = (props) => {
         window.scrollTo(10, 0);
     }
 
-    const handleAddToCart = (e) => {
+    const handleAddToCart = async (e) => {
         e.preventDefault()
-        // Build a minimal product object expected by the cart reducer
-        const product = {
-            id: props.courseData?.id || Math.random().toString(36).slice(2, 9),
-            title: props.courseData?.title || 'Course',
-            price: props.courseData?.price || 0,
-            discount: props.courseData?.discount || 0,
-            image_url: props.courseData?.image_url || '',
-            slug: props.courseData?.slug || ''
+
+        // Ensure we have a course id
+        const courseId = props.courseData?.id
+        if (!courseId) {
+            // eslint-disable-next-line no-alert
+            alert('Course id is missing')
+            return
         }
 
-        // dispatch addToCart (this shows toast + updates redux state)
-        dispatch(addToCart(product, 1))
+        try {
+            // Get current session (includes access_token)
+            const { data: sessionData } = await supabase.auth.getSession()
+            const session = sessionData?.session || null
 
-        // navigate to cart page after adding
-        router.push('/cart')
+            if (!session || !session.user) {
+                // Not logged in — redirect to login page
+                router.push('/login')
+                return
+            }
+
+            const accessToken = session.access_token
+
+            // Call backend API to add item to server-side cart
+            const resp = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ course_id: courseId })
+            })
+
+            const json = await resp.json().catch(() => ({}))
+            if (!resp.ok) {
+                // handle specific cases such as already-in-cart
+                const message = json?.error || json?.message || 'Failed to add to cart'
+                // eslint-disable-next-line no-alert
+                alert(message)
+                return
+            }
+
+            // Success — update client cart state for instant UX
+            const product = {
+                id: props.courseData?.id || Math.random().toString(36).slice(2, 9),
+                title: props.courseData?.title || 'Course',
+                price: props.courseData?.price || 0,
+                discount: props.courseData?.discount || 0,
+                image_url: props.courseData?.image_url || '',
+                slug: props.courseData?.slug || ''
+            }
+            dispatch(addToCart(product, 1))
+
+            // navigate to cart page after adding
+            router.push('/cart')
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('Add to cart error', err)
+            // eslint-disable-next-line no-alert
+            alert('Failed to add to cart')
+        }
     }
 
     return (

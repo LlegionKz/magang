@@ -99,14 +99,14 @@ const CoureseTab = ({ courseData }) => {
                     <div className="row align-items-center">
                       <div className="col-lg-5">
                         <div className="team-info-img">
-                          <img src={courseData.instructor.avatar_url || GLOBAL_IMAGE} alt={courseData.instructor.name || 'Instructor'} width={200} />
+                          <img src={courseData.instructor.avatar_url || courseData.instructor.avatar || GLOBAL_IMAGE} alt={courseData.instructor.name || courseData.instructor.authorName || 'Instructor'} width={200} />
                         </div>
                       </div>
                       <div className="col-lg-7">
                         <div className="team-info-text">
-                          <h2>{courseData.instructor.name || 'Instructor Name'}</h2>
+                          <h2>{courseData.instructor.name || courseData.instructor.authorName || 'Instructor Name'}</h2>
                           <ul>
-                            <li>Position: <span>{courseData.instructor.title || 'Instructor'}</span></li>
+                            <li>Position: <span>{courseData.instructor.title || courseData.instructor.position || 'Instructor'}</span></li>
                             <li>Bio: <span>{courseData.instructor.bio || ''}</span></li>
                           </ul>
                         </div>

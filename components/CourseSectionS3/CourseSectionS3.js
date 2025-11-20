@@ -2,7 +2,7 @@ import React from "react";
 import Link from 'next/link'
 import Courses from "../../api/Courses";
 import Image from "next/image";
-import { safeImageSrc, getStarsFromCourse, formatStarsValue } from '../../utils'
+import { safeImageSrc, getStarsFromCourse, formatStarsValue, sanitizeSrc } from '../../utils'
 
 const GLOBAL_IMAGE = 'https://drive.google.com/uc?id=1uNgVcJcVdH0XGEymUekukJ_pRo0YxrWd'
 
@@ -12,7 +12,7 @@ const ClickHandler = () => {
 }
 
 const CourseSectionS3 = (props) => {
-    const { searchQuery = '', categoryFilter = '', courses = null, loading = false } = props;
+    const { searchQuery = '', categoryFilter = '', courses = null, loading = false, showPrice = true } = props;
 
     // while the page is fetching courses, avoid showing the local static fallback
     if (courses === null && loading) {
@@ -76,16 +76,23 @@ const CourseSectionS3 = (props) => {
                                         <div className="wpo-popular-single">
                                             <div className="wpo-popular-item">
                                                     <div className="wpo-popular-img">
-                                                    <Image src={course.image_url || course.cImg || GLOBAL_IMAGE} alt="" width={600} height={400} />
-                                                    <div className="thumb">
-                                                        <span>${(Number(course.price || course.fee || 0)).toFixed(2)}</span>
+                                                                                {
+                                                                                    (() => {
+                                                                                        const src = sanitizeSrc(course.image_url || course.cImg) || GLOBAL_IMAGE
+                                                                                        return <Image src={src} alt="" width={600} height={400} />
+                                                                                    })()
+                                                                                }
+                                                        {showPrice ? (
+                                                            <div className="thumb">
+                                                                <span>${(Number(course.price || course.fee || 0)).toFixed(2)}</span>
+                                                            </div>
+                                                        ) : null}
                                                     </div>
-                                                </div>
                                                 <div className="wpo-popular-content">
                                                     <div className="wpo-popular-text-top">
                                                         <ul>
                                                             <li>
-                                                                <Image src={instructorImg} alt={instructorName} width={40} height={40} />
+                                                                    <Image src={sanitizeSrc(instructorImg) || GLOBAL_IMAGE} alt={instructorName} width={40} height={40} />
                                                             </li>
                                                             <li>
                                                                 <Link onClick={ClickHandler} href={'/course-single/[slug]'} as={`/course-single/${course.slug}`}>{instructorName}</Link>

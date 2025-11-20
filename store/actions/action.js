@@ -104,3 +104,8 @@ export const removeFromCompareList = (product) => (dispatch) => {
     product,
   });
 };
+
+export const clearCart = () => (dispatch) => {
+  // clear client-side cart state
+  dispatch({ type: types.CLEAR_CART });
+};

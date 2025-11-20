@@ -15,7 +15,7 @@ const Header = (props) => {
     const router = useRouter()
 
     const isActive = (path) => router && router.pathname === path
-    const pagesPaths = ['/lesson','/gallery','/testimonial','/teacher','/become-teacher','/faq']
+    const pagesPaths = ['/lesson','/student/courses','/gallery','/testimonial','/teacher','/become-teacher','/faq']
     const isPagesActive = pagesPaths.includes(router && router.pathname)
     const SubmitHandler = (e) => {
         e.preventDefault()
@@ -59,7 +59,7 @@ const Header = (props) => {
                                         <li className={`menu-item-has-children ${isPagesActive ? 'active' : ''}`}>
                                             <a href="#" onClick={(e) => { e.preventDefault(); }} className={isPagesActive ? 'active' : ''}>Pages</a>
                                             <ul className="sub-menu">
-                                                <li><Link onClick={ClickHandler} href="/lesson" className={isActive('/lesson') ? 'active' : ''}>Lesson</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/student/courses" className={isActive('/student/courses') ? 'active' : ''}>My Courses</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/gallery" className={isActive('/gallery') ? 'active' : ''}>Gallery</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/testimonial" className={isActive('/testimonial') ? 'active' : ''}>Testimonial</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/teacher" className={isActive('/teacher') ? 'active' : ''}>Teachers</Link></li>

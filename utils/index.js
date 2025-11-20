@@ -35,6 +35,44 @@ function safeImageSrc(src, fallback) {
     return isValidImageSrc(src) ? src : fallback;
 }
 
+// more robust sanitizer that accepts data URIs and converts Google Drive share links
+function sanitizeSrc(src) {
+    if (!src || typeof src !== 'string') return ''
+    const s = src.trim()
+    // allow data URIs directly
+    if (s.startsWith('data:')) return s
+    // protocol-relative
+    if (s.startsWith('//')) return 'https:' + s
+    // direct http/https ok
+    if (s.startsWith('http://') || s.startsWith('https://')) {
+        // handle common Google Drive sharing URLs and convert to direct image access
+        try {
+            const url = new URL(s)
+                    if (url.hostname === 'drive.google.com') {
+                        // patterns: /file/d/ID/view, /open, /uc
+                        const path = url.pathname || ''
+                        // /file/d/<id>/view
+                        const fileMatch = path.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
+                        if (fileMatch && fileMatch[1]) return `/api/image-proxy?driveId=${fileMatch[1]}`
+                        // ?id=<id>
+                        const id = url.searchParams.get('id')
+                        if (id) return `/api/image-proxy?driveId=${id}`
+                        // if already uc with export/view, try to extract id from query
+                        if (path.startsWith('/uc')) {
+                            const idFromUc = url.searchParams.get('id')
+                            if (idFromUc) return `/api/image-proxy?driveId=${idFromUc}`
+                        }
+                    }
+        } catch (e) {
+            // ignore URL parse errors
+        }
+        return s
+    }
+    // allow root-relative
+    if (s.startsWith('/')) return s
+    return ''
+}
+
 // Rating helpers
 function getStarsFromCourse(course) {
     if (!course) return 0;
@@ -135,6 +173,7 @@ export {
     searchFilter
     , isValidImageSrc
     , safeImageSrc
+    , sanitizeSrc
     , getStarsFromCourse
     , formatStarsValue
 };
