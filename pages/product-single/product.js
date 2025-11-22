@@ -2,17 +2,21 @@ import React from 'react';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-const Product = ({ item, addToCart }) => {
+const Product = ({ item = {}, addToCart = () => {} }) => {
+  // Safe defaults to prevent prerender/SSR crashes when `item` is undefined
+  const imgSrc = item && item.proImg ? item.proImg : '';
+  const title = item && item.title ? item.title : 'Product';
+  const price = item && (item.price !== undefined) ? item.price : '0.00';
+  const delPrice = item && (item.delPrice !== undefined) ? item.delPrice : '';
 
   return (
-
     <div className="row">
       <div className="col col-lg-5 col-12">
         <div className="shop-single-slider">
           <div className="slider-nav">
             <div>
               <Zoom>
-                <img src={item.proImg ? item.proImg : ''} alt="products" />
+                <img src={imgSrc} alt="products" />
               </Zoom>
             </div>
           </div>
@@ -20,7 +24,7 @@ const Product = ({ item, addToCart }) => {
       </div>
       <div className="col col-lg-7 col-12">
         <div className="product-details">
-          <h2>{item.title}</h2>
+          <h2>{title}</h2>
           <div className="product-rt">
             <div className="rating">
               <i className="fa fa-star"></i>
@@ -32,8 +36,8 @@ const Product = ({ item, addToCart }) => {
             <span>(25 customer reviews)</span>
           </div>
           <div className="price">
-            <span className="current">${item.price}</span>
-            <span className="old">${item.delPrice}</span>
+            <span className="current">${price}</span>
+            <span className="old">${delPrice}</span>
           </div>
           <p>There are many variations of passages of Lorem Ipsum and available, but the majority have suffered alteration in somey form.</p>
           <ul>
@@ -43,11 +47,8 @@ const Product = ({ item, addToCart }) => {
           </ul>
           <div className="product-option">
             <div className="product-row">
-              <button className="theme-btn"
-                onClick={() => addToCart(item)}>Add
-                to cart</button>
-              <div>
-              </div>
+              <button className="theme-btn" onClick={() => addToCart(item)}>Add to cart</button>
+              <div></div>
             </div>
           </div>
           <div className="tg-btm">
@@ -55,7 +56,6 @@ const Product = ({ item, addToCart }) => {
             <p><span>Tags:</span>Education, Lesson, Lawyer</p>
           </div>
         </div>
-
       </div>
     </div>
   );
